@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NDLE Blueprint - NDLE Review Hub</title>
+    <!-- Custom Stylesheet -->
+    <link href="style.css" rel="stylesheet">
+    <!-- Alpine.js Core -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Central App Logic -->
+    <script src="app.js"></script>
+</head>
+<body x-data="appData">
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="flex justify-between items-center py-4">
+                <a href="index.html" class="text-2xl font-serif font-bold" style="color: var(--up-maroon);">NDLE Hub</a>
+                <div class="hidden lg:flex space-x-2 items-center">
+                    <a href="blueprint.html" class="nav-link active">Blueprint</a>
+                    <a href="practice.html" class="nav-link">Practice</a>
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="topnotchers.html" class="nav-link">Topnotchers</a>
+                    <a href="performance.html" class="nav-link">Performance</a>
+                    <a href="faqs.html" class="nav-link">FAQs</a>
+                </div>
+                <button @click="navOpen = !navOpen" class="lg:hidden text-gray-700">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                </button>
+            </nav>
+        </div>
+        <!-- Mobile Nav -->
+        <div x-show="navOpen" @click.away="navOpen = false" class="lg:hidden border-t" x-cloak>
+             <a href="blueprint.html" class="block py-3 px-6 text-sm bg-gray-100 font-semibold">Blueprint</a>
+             <a href="practice.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Practice</a>
+             <a href="dashboard.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Dashboard</a>
+             <a href="topnotchers.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Topnotchers</a>
+             <a href="performance.html" class="block py-3 px-6 text-sm hover:bg-gray-100">School Performance</a>
+             <a href="faqs.html" class="block py-3 px-6 text-sm hover:bg-gray-100">FAQs</a>
+        </div>
+    </header>
+
+    <main class="container py-12" x-data="blueprintPage" x-init="init()">
+        <section id="blueprint">
+            <h1 class="section-title">The NDLE Blueprint</h1>
+            <p class="text-center text-lg text-gray-600 max-w-3xl mx-auto mb-10">This is your interactive checklist. Use the official Table of Specifications to guide your review. Click each subject to expand the competencies, then check off topics as you master them. Your progress is saved automatically.</p>
+            
+            <div x-data="{ open: 'nbcd' }" class="space-y-4 max-w-4xl mx-auto">
+                <!-- Subject Accordion Item -->
+                <template x-for="subject in tos" :key="subject.id">
+                    <div class="accordion-item">
+                        <button @click="open = (open === subject.id ? '' : subject.id)" class="accordion-button">
+                            <span class="font-serif text-lg" x-text="`${subject.title} (${subject.weight})`"></span>
+                            <span class="accordion-arrow" :class="{'open': open === subject.id}">▼</span>
+                        </button>
+                        <div x-show="open === subject.id" x-cloak class="accordion-content" x-data="{ openCompetency: '' }">
+                            <!-- Competency Accordion -->
+                            <template x-for="comp in subject.competencies" :key="comp.id">
+                                <div class="mb-2 rounded border border-gray-100">
+                                    <button @click="openCompetency = (openCompetency === comp.id ? '' : comp.id)" class="w-full text-left flex justify-between items-center p-3 bg-gray-50 hover:bg-gray-100">
+                                        <span class="font-medium" x-text="`${comp.id}: ${comp.title} (${comp.weight})`"></span>
+                                        <span class="accordion-arrow text-sm" :class="{'open': openCompetency === comp.id}">▼</span>
+                                    </button>
+                                    <div x-show="openCompetency === comp.id" x-cloak class="p-4 text-sm">
+                                        <ul class="list-disc list-inside space-y-3">
+                                            <template x-for="topic in comp.topics" :key="topic">
+                                                <li>
+                                                    <label class="flex items-center cursor-pointer">
+                                                       <input type="checkbox" :id="`topic-${subject.id}-${comp.id}-${topic.replace(/\s+/g, '-')}`" @change="toggleTopicCompletion(`topic-${subject.id}-${comp.id}-${topic.replace(/\s+/g, '-')}`)" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                                       <span class="ml-3" x-text="topic"></span>
+                                                    </label>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: var(--up-maroon);" class="text-white mt-24">
+        <div class="container py-4 text-center">
+            <p>&copy; 2025 NDLE Review Hub. Your partner in becoming a Registered Nutritionist-Dietitian.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
