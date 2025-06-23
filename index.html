@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate NDLE Review Hub - Home</title>
+    <!-- Custom Stylesheet -->
+    <link href="style.css" rel="stylesheet">
+    <!-- Alpine.js Core -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Central App Logic (must be loaded before Alpine.js is initialized) -->
+    <script src="app.js"></script>
+</head>
+<body x-data="appData">
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="flex justify-between items-center py-4">
+                <a href="index.html" class="text-2xl font-serif font-bold" style="color: var(--up-maroon);">NDLE Hub</a>
+                <div class="hidden lg:flex space-x-2 items-center">
+                    <a href="blueprint.html" class="nav-link">Blueprint</a>
+                    <a href="practice.html" class="nav-link">Practice</a>
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="topnotchers.html" class="nav-link">Topnotchers</a>
+                    <a href="performance.html" class="nav-link">Performance</a>
+                    <a href="faqs.html" class="nav-link">FAQs</a>
+                </div>
+                <button @click="navOpen = !navOpen" class="lg:hidden text-gray-700">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                </button>
+            </nav>
+        </div>
+        <!-- Mobile Nav -->
+        <div x-show="navOpen" @click.away="navOpen = false" class="lg:hidden border-t" x-cloak>
+             <a href="blueprint.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Blueprint</a>
+             <a href="practice.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Practice</a>
+             <a href="dashboard.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Dashboard</a>
+             <a href="topnotchers.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Topnotchers</a>
+             <a href="performance.html" class="block py-3 px-6 text-sm hover:bg-gray-100">School Performance</a>
+             <a href="faqs.html" class="block py-3 px-6 text-sm hover:bg-gray-100">FAQs</a>
+        </div>
+    </header>
+
+    <main class="container py-12">
+        <section class="text-center mb-24" x-data="homepage" x-init="init()">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Your Journey to RND Starts Here</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">The ultimate hub for aspiring Registered Nutritionist-Dietitians. All the tools you need to conquer the NDLE, inspired by a tradition of excellence.</p>
+
+            <div class="mt-10 bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto border">
+                <h2 class="text-2xl font-serif font-bold" style="color: var(--up-maroon);">Countdown to the NDLE</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                    <div class="countdown-box">
+                        <span x-text="countdown.days" class="countdown-number"></span>
+                        <span class="block text-sm">Days</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span x-text="countdown.hours" class="countdown-number"></span>
+                        <span class="block text-sm">Hours</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span x-text="countdown.minutes" class="countdown-number"></span>
+                        <span class="block text-sm">Minutes</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span x-text="countdown.seconds" class="countdown-number"></span>
+                        <span class="block text-sm">Seconds</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mt-16 max-w-5xl mx-auto">
+                <a href="blueprint.html" class="card text-center no-underline">
+                    <h3 class="font-serif font-bold text-xl mt-4">The NDLE Blueprint</h3>
+                    <p class="text-sm mt-2 text-gray-600">Master the Table of Specifications. Know exactly what to study.</p>
+                </a>
+                <a href="practice.html" class="card text-center no-underline">
+                    <h3 class="font-serif font-bold text-xl mt-4">Interactive Practice</h3>
+                    <p class="text-sm mt-2 text-gray-600">Test your knowledge with quizzes from a 600-question database.</p>
+                </a>
+                 <a href="topnotchers.html" class="card text-center no-underline">
+                    <h3 class="font-serif font-bold text-xl mt-4">Be Inspired</h3>
+                    <p class="text-sm mt-2 text-gray-600">See the list of past topnotchers and top-performing schools.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: var(--up-maroon);" class="text-white mt-24">
+        <div class="container py-4 text-center">
+            <p>&copy; 2025 NDLE Review Hub. Your partner in becoming a Registered Nutritionist-Dietitian.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
