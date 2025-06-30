@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "subject": "Community and Public Health Nutrition",
+  "questions": [
+    {
+      "question": "Which of the following is an example of an anthropometric measurement?",
+      "options": { "a": "Serum albumin level", "b": "24-hour food recall", "c": "Mid-upper arm circumference (MUAC)", "d": "Pale conjunctiva" },
+      "correctAnswer": "c",
+      "rationale": "Anthropometry involves the measurement of the human body. MUAC, height, weight, and head circumference are all examples of anthropometric measurements used to assess nutritional status.",
+      "tags": ["Nutritional Assessment", "Anthropometry"]
+    },
+    {
+      "question": "The 'A' in the ABCD method of nutritional assessment stands for:",
+      "options": { "a": "Attitude", "b": "Assessment", "c": "Anthropometric", "d": "Analysis" },
+      "correctAnswer": "c",
+      "rationale": "The ABCD method is a mnemonic for the four primary components of nutritional assessment: Anthropometric, Biochemical, Clinical, and Dietary.",
+      "tags": ["Nutritional Assessment"]
+    }
+  ]
+}
