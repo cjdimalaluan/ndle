@@ -1,96 +1,543 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Ultimate NDLE Review Hub - Home</title>
-    <!-- Custom Stylesheet -->
-    <link href="style.css" rel="stylesheet">
-    <!-- Alpine.js Core -->
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Central App Logic (must be loaded before Alpine.js is initialized) -->
-    <script src="app.js"></script>
+    
+    <!-- SEO & Metadata -->
+    <title>NDLE Ascent - Spaced Repetition Study App for NDLE</title>
+    <meta name="description" content="A powerful, science-based study tool for the Philippine Nutritionist-Dietitian Licensure Exam (NDLE). Master key concepts with a smart spaced repetition flashcard system.">
+    <link rel="canonical" href="https://your-username.github.io/your-repo-name/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-username.github.io/your-repo-name/">
+    <meta property="og:title" content="NDLE Ascent - Spaced Repetition Study App">
+    <meta property="og:description" content="Your ultimate study partner for the Nutritionist-Dietitian Licensure Exam.">
+    <meta property="og:image" content="https://placehold.co/1200x630/0284c7/FFFFFF?text=NDLE+Ascent">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://your-username.github.io/your-repo-name/">
+    <meta property="twitter:title" content="NDLE Ascent - Spaced Repetition Study App">
+    <meta property="twitter:description" content="Your ultimate study partner for the Nutritionist-Dietitian Licensure Exam.">
+    <meta property="twitter:image" content="https://placehold.co/1200x630/0284c7/FFFFFF?text=NDLE+Ascent">
+
+    <!-- Performance Optimization: Preconnect to critical origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com">
+    
+    <!-- Performance Optimization: Preload JSON databases -->
+    <!-- IMPORTANT: Replace these with your actual raw GitHub URLs -->
+    <link rel="preload" href="https://raw.githubusercontent.com/your-username/your-repo/main/ffss_questions.json" as="fetch" crossorigin="anonymous">
+    <link rel="preload" href="https://raw.githubusercontent.com/your-username/your-repo/main/nbcd_questions.json" as="fetch" crossorigin="anonymous">
+    <link rel="preload" href="https://raw.githubusercontent.com/your-username/your-repo/main/cphn_questions.json" as="fetch" crossorigin="anonymous">
+
+    <!-- Stylesheets -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      /* CSS Custom Properties for Theming and Consistency */
+      :root {
+        --color-primary: #0369a1; /* sky-700 */
+        --color-primary-hover: #0284c7; /* sky-600 */
+        --color-accent-green: #16a34a; /* green-600 */
+        --color-accent-red: #dc2626; /* red-600 */
+        --color-accent-yellow: #f59e0b; /* amber-500 */
+        --color-text-primary: #1e293b; /* slate-800 */
+        --color-text-secondary: #475569; /* slate-600 */
+        --card-bg: #ffffff;
+        --page-bg: #f8fafc; /* slate-50 */
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--page-bg);
+        color: var(--color-text-primary);
+      }
+
+      /* Utility Classes using @apply for cleaner HTML */
+      .btn {
+        @apply px-5 py-3 rounded-lg font-semibold text-white shadow-sm transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2;
+      }
+      .btn-primary {
+        @apply btn bg-sky-700 hover:bg-sky-600 focus:ring-sky-500;
+      }
+      .btn-secondary {
+        @apply btn bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 focus:ring-sky-500;
+      }
+      .modal-card {
+        @apply bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto;
+      }
+      dialog::backdrop {
+        @apply bg-black bg-opacity-50;
+      }
+
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .option-btn { transition: background-color 0.2s, border-color 0.2s, transform 0.1s; }
+      .option-btn:hover {
+        @apply ring-2 ring-sky-300;
+      }
+      .option-btn:active {
+        @apply scale-[0.98];
+      }
+    </style>
+
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "NDLE Ascent",
+      "description": "A web-based spaced repetition study application for the Philippine Nutritionist-Dietitian Licensure Examination (NDLE).",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Works on modern browsers like Chrome, Firefox, Safari, Edge.",
+      "provider": {
+        "@type": "Organization",
+        "name": "NDLE Ascent"
+      }
+    }
+    </script>
 </head>
-<body x-data="appData">
+<body class="bg-slate-50 text-slate-800">
 
-    <!-- Header & Navigation -->
-    <header>
-        <div class="container">
-            <nav class="flex justify-between items-center py-4">
-                <a href="index.html" class="text-2xl font-serif font-bold" style="color: var(--up-maroon);">NDLE Hub</a>
-                <div class="hidden lg:flex space-x-2 items-center">
-                    <a href="blueprint.html" class="nav-link">Blueprint</a>
-                    <a href="practice.html" class="nav-link">Practice</a>
-                    <a href="dashboard.html" class="nav-link">Dashboard</a>
-                    <a href="topnotchers.html" class="nav-link">Topnotchers</a>
-                    <a href="performance.html" class="nav-link">Performance</a>
-                    <a href="faqs.html" class="nav-link">FAQs</a>
+    <div id="app" class="max-w-4xl mx-auto p-4 md:p-6">
+
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-sky-700">NDLE Ascent</h1>
+            <div id="user-info" class="text-xs text-slate-500"></div>
+        </header>
+
+        <main id="dashboard-view">
+            <section id="countdown-timer" aria-labelledby="countdown-heading" class="mb-8 bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                <h2 id="countdown-heading" class="text-lg font-semibold text-slate-700 mb-3 text-center">Countdown to NDLE 2025</h2>
+                <div id="timer-grid" class="grid grid-cols-4 gap-2 md:gap-4 text-center">
+                    <div><p id="days" class="text-3xl md:text-5xl font-bold text-sky-700">00</p><p class="text-xs md:text-sm text-slate-500">Days</p></div>
+                    <div><p id="hours" class="text-3xl md:text-5xl font-bold text-sky-700">00</p><p class="text-xs md:text-sm text-slate-500">Hours</p></div>
+                    <div><p id="minutes" class="text-3xl md:text-5xl font-bold text-sky-700">00</p><p class="text-xs md:text-sm text-slate-500">Minutes</p></div>
+                    <div><p id="seconds" class="text-3xl md:text-5xl font-bold text-sky-700">00</p><p class="text-xs md:text-sm text-slate-500">Seconds</p></div>
                 </div>
-                <button @click="navOpen = !navOpen" class="lg:hidden text-gray-700">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                </button>
-            </nav>
-        </div>
-        <!-- Mobile Nav -->
-        <div x-show="navOpen" @click.away="navOpen = false" class="lg:hidden border-t" x-cloak>
-             <a href="blueprint.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Blueprint</a>
-             <a href="practice.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Practice</a>
-             <a href="dashboard.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Dashboard</a>
-             <a href="topnotchers.html" class="block py-3 px-6 text-sm hover:bg-gray-100">Topnotchers</a>
-             <a href="performance.html" class="block py-3 px-6 text-sm hover:bg-gray-100">School Performance</a>
-             <a href="faqs.html" class="block py-3 px-6 text-sm hover:bg-gray-100">FAQs</a>
-        </div>
-    </header>
+            </section>
 
-    <main class="container py-12">
-        <section class="text-center mb-24" x-data="homepage" x-init="init()">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Your Journey to RND Starts Here</h1>
-            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">The ultimate hub for aspiring Registered Nutritionist-Dietitians. All the tools you need to conquer the NDLE, inspired by a tradition of excellence.</p>
+            <section aria-labelledby="stats-heading" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <h2 id="stats-heading" class="sr-only">Study Statistics</h2>
+                <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg text-center"><p id="stats-review" class="text-3xl font-bold text-blue-800">0</p><p class="text-sm text-blue-700">Cards to Review</p></div>
+                <div class="bg-green-50 border border-green-200 p-4 rounded-lg text-center"><p id="stats-new" class="text-3xl font-bold text-green-800">0</p><p class="text-sm text-green-700">New Cards to Learn</p></div>
+                <div class="bg-slate-100 border border-slate-200 p-4 rounded-lg text-center"><p id="stats-mastered" class="text-3xl font-bold text-slate-800">0</p><p class="text-sm text-slate-700">Total Cards Mastered</p></div>
+            </section>
+            
+            <section aria-labelledby="progress-heading" class="mb-8 bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                <h2 id="progress-heading" class="text-lg font-semibold text-slate-700 mb-4">Progress by Subject</h2>
+                <div id="subject-progress-bars" class="space-y-4"></div>
+            </section>
 
-            <div class="mt-10 bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto border">
-                <h2 class="text-2xl font-serif font-bold" style="color: var(--up-maroon);">Countdown to the NDLE</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-                    <div class="countdown-box">
-                        <span x-text="countdown.days" class="countdown-number"></span>
-                        <span class="block text-sm">Days</span>
-                    </div>
-                    <div class="countdown-box">
-                        <span x-text="countdown.hours" class="countdown-number"></span>
-                        <span class="block text-sm">Hours</span>
-                    </div>
-                    <div class="countdown-box">
-                        <span x-text="countdown.minutes" class="countdown-number"></span>
-                        <span class="block text-sm">Minutes</span>
-                    </div>
-                    <div class="countdown-box">
-                        <span x-text="countdown.seconds" class="countdown-number"></span>
-                        <span class="block text-sm">Seconds</span>
-                    </div>
+            <section aria-labelledby="actions-heading" class="flex flex-col gap-4">
+                <h2 id="actions-heading" class="sr-only">Main Actions</h2>
+                 <div class="flex flex-col sm:flex-row gap-4">
+                    <select id="study-subject-select" class="w-full sm:w-1/3 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500"></select>
+                    <button id="start-session-btn" class="btn-primary w-full sm:w-2/3 disabled:bg-slate-400 disabled:cursor-not-allowed disabled:shadow-none">Begin Study Session</button>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <button id="add-card-btn" class="btn-secondary">Add New Card</button>
+                    <button id="browse-cards-btn" class="btn-secondary">Browse All Cards</button>
+                </div>
+            </section>
+        </main>
+
+        <section id="study-session-view" class="hidden" aria-live="polite">
+            <div class="mb-4">
+                <div class="flex justify-between mb-1"><span id="session-title" class="text-base font-medium text-sky-700"></span><span id="progress-text" class="text-sm font-medium text-sky-700"></span></div>
+                <div class="w-full bg-slate-200 rounded-full h-2.5"><div id="progress-bar" class="bg-sky-600 h-2.5 rounded-full" style="width: 0%"></div></div>
+            </div>
+            <div id="question-area" class="bg-white p-6 rounded-xl shadow-md border border-slate-200 mb-4">
+                <p id="card-subject" class="text-sm font-semibold text-sky-600 mb-2"></p>
+                <p id="card-question" class="text-xl font-semibold text-slate-800 mb-6"></p>
+                <div id="options-container" class="space-y-3"></div>
+            </div>
+            <div id="feedback-area" class="hidden">
+                <div id="rationale-container" class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-lg mb-4">
+                    <h3 class="font-bold text-sky-800">Rationale</h3>
+                    <p id="card-rationale" class="text-sky-700 mt-1"></p>
+                </div>
+                <div id="feedback-buttons" class="grid grid-cols-3 gap-3">
+                    <button data-rating="again" class="btn bg-red-600 hover:bg-red-500 focus:ring-red-500">Again</button>
+                    <button data-rating="good" class="btn bg-amber-500 hover:bg-amber-400 focus:ring-amber-500">Good</button>
+                    <button data-rating="easy" class="btn bg-green-600 hover:bg-green-500 focus:ring-green-500">Easy</button>
                 </div>
             </div>
-
-            <div class="grid md:grid-cols-3 gap-8 mt-16 max-w-5xl mx-auto">
-                <a href="blueprint.html" class="card text-center no-underline">
-                    <h3 class="font-serif font-bold text-xl mt-4">The NDLE Blueprint</h3>
-                    <p class="text-sm mt-2 text-gray-600">Master the Table of Specifications. Know exactly what to study.</p>
-                </a>
-                <a href="practice.html" class="card text-center no-underline">
-                    <h3 class="font-serif font-bold text-xl mt-4">Interactive Practice</h3>
-                    <p class="text-sm mt-2 text-gray-600">Test your knowledge with quizzes from a 600-question database.</p>
-                </a>
-                 <a href="topnotchers.html" class="card text-center no-underline">
-                    <h3 class="font-serif font-bold text-xl mt-4">Be Inspired</h3>
-                    <p class="text-sm mt-2 text-gray-600">See the list of past topnotchers and top-performing schools.</p>
-                </a>
-            </div>
+            <button id="end-session-btn" class="w-full mt-4 bg-slate-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">End Session</button>
         </section>
-    </main>
+        
+        <section id="session-complete-view" class="hidden text-center bg-white p-8 rounded-xl shadow-md border border-slate-200">
+            <h2 class="text-2xl font-bold text-green-600 mb-4">Great work!</h2>
+            <p id="session-summary" class="text-slate-600 mb-6"></p>
+            <button id="return-to-dash-btn" class="btn-primary">Back to Dashboard</button>
+        </section>
+    </div>
 
-    <footer style="background-color: var(--up-maroon);" class="text-white mt-24">
-        <div class="container py-4 text-center">
-            <p>&copy; 2025 NDLE Review Hub. Your partner in becoming a Registered Nutritionist-Dietitian.</p>
-        </div>
-    </footer>
+    <dialog id="add-card-modal" class="modal-card no-scrollbar">
+        <h2 id="modal-title" class="text-xl font-bold mb-4">Add New Card</h2>
+        <form id="card-form" method="dialog">
+            <input type="hidden" id="card-id-input">
+            <div class="mb-4"><label for="subject-input" class="block text-sm font-medium text-slate-700 mb-1">Subject</label><select id="subject-input" class="w-full p-2 border border-slate-300 rounded-lg" required></select></div>
+            <div class="mb-4"><label for="question-input" class="block text-sm font-medium text-slate-700 mb-1">Question</label><textarea id="question-input" rows="3" class="w-full p-2 border border-slate-300 rounded-lg" required></textarea></div>
+            <div class="space-y-3 mb-4">
+                <p class="block text-sm font-medium text-slate-700">Options</p>
+                <div class="flex items-center gap-2"><label for="option-a" class="font-bold text-slate-500">A</label><input type="text" id="option-a" class="w-full p-2 border border-slate-300 rounded-lg" required></div>
+                <div class="flex items-center gap-2"><label for="option-b" class="font-bold text-slate-500">B</label><input type="text" id="option-b" class="w-full p-2 border border-slate-300 rounded-lg" required></div>
+                <div class="flex items-center gap-2"><label for="option-c" class="font-bold text-slate-500">C</label><input type="text" id="option-c" class="w-full p-2 border border-slate-300 rounded-lg" required></div>
+                <div class="flex items-center gap-2"><label for="option-d" class="font-bold text-slate-500">D</label><input type="text" id="option-d" class="w-full p-2 border border-slate-300 rounded-lg" required></div>
+            </div>
+            <div class="mb-4"><label for="correct-answer-input" class="block text-sm font-medium text-slate-700 mb-1">Correct Answer</label><select id="correct-answer-input" class="w-full p-2 border border-slate-300 rounded-lg" required><option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option></select></div>
+            <div class="mb-4"><label for="rationale-input" class="block text-sm font-medium text-slate-700 mb-1">Rationale</label><textarea id="rationale-input" rows="4" class="w-full p-2 border border-slate-300 rounded-lg" required></textarea></div>
+            <div class="mb-6"><label for="tags-input" class="block text-sm font-medium text-slate-700 mb-1">Tags (e.g., Recurring Topic, Year)</label><input type="text" id="tags-input" class="w-full p-2 border border-slate-300 rounded-lg"></div>
+            <div class="flex justify-end gap-3"><button type="button" id="cancel-card-btn" class="btn-secondary">Cancel</button><button type="submit" id="save-card-btn" class="btn-primary">Save Card</button></div>
+        </form>
+    </dialog>
+    
+    <dialog id="browse-cards-modal" class="modal-card no-scrollbar w-full max-w-4xl h-[90vh] flex flex-col">
+        <header class="flex justify-between items-center mb-4 border-b pb-3 sticky top-0 bg-white">
+            <h2 class="text-xl font-bold">All Cards</h2>
+            <button id="close-browse-btn" class="text-2xl text-slate-500 hover:text-slate-800" aria-label="Close browse cards dialog">&times;</button>
+        </header>
+        <div id="browse-filter-container" class="mb-4 flex flex-wrap gap-2"></div>
+        <div id="browse-list" class="flex-grow overflow-y-auto pr-2"></div>
+    </dialog>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, setDoc, onSnapshot, deleteDoc, Timestamp, query, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- CONSTANTS ---
+        const CONSTANTS = {
+            NDLE_SUBJECTS: ["Nutritional Biochemistry and Clinical Dietetics", "Foods and Food Service Systems", "Community and Public Health Nutrition"],
+            SUBJECT_KEYS: {
+                "Nutritional Biochemistry and Clinical Dietetics": 'nbcd',
+                "Foods and Food Service Systems": 'ffss',
+                "Community and Public Health Nutrition": 'cphn'
+            },
+            SUBJECT_COLORS: {
+                'nbcd': 'bg-indigo-500',
+                'ffss': 'bg-teal-500',
+                'cphn': 'bg-amber-500'
+            },
+            // IMPORTANT: Replace these URLs with the raw URLs of your JSON files on GitHub
+            DB_CONFIG: {
+                'nbcd': { url: "https://raw.githubusercontent.com/your-username/your-repo/main/nbcd_questions.json" },
+                'ffss': { url: "https://raw.githubusercontent.com/your-username/your-repo/main/ffss_questions.json" },
+                'cphn': { url: "https://raw.githubusercontent.com/your-username/your-repo/main/cphn_questions.json" }
+            }
+        };
+
+        // --- GLOBAL STATE ---
+        let db, auth, userId, allCards = [], studyQueue = [], currentCardIndex = 0, cardsReviewedInSession = 0, unsubscribeListener = null;
+
+        // --- FIREBASE & AUTH ---
+        async function initializeFirebase() {
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'ndle-ascent-mcq-default';
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+            if (!firebaseConfig) { console.error("Firebase config not found!"); document.body.innerHTML = `<div class="p-8 text-center text-red-500">Config Error.</div>`; return; }
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            onAuthStateChanged(auth, async user => {
+                if (user) {
+                    userId = user.uid;
+                    document.getElementById('user-info').textContent = `User: ${userId.substring(0, 8)}...`;
+                    if (unsubscribeListener) unsubscribeListener();
+                    await checkForDBUpdates();
+                    setupRealtimeListener();
+                } else {
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
+                        else await signInAnonymously(auth);
+                    } catch (error) { console.error("Auth failed:", error); }
+                }
+            });
+        }
+
+        // --- VERSIONING & DATABASE UPDATE LOGIC ---
+        async function checkForDBUpdates() {
+            if (!userId) return;
+            const profileRef = doc(db, `/artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/users/${userId}/profile/main`);
+            const profileSnap = await getDoc(profileRef);
+            const userVersions = profileSnap.exists() ? profileSnap.data().dbVersions || {} : {};
+            let versionsToUpdate = {};
+
+            for (const [key, config] of Object.entries(CONSTANTS.DB_CONFIG)) {
+                try {
+                    const response = await fetch(config.url);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${key}`);
+                    const remoteDB = await response.json();
+                    const remoteVersion = remoteDB.version;
+                    const userVersion = userVersions[key] || "0.0";
+
+                    if (parseFloat(remoteVersion) > parseFloat(userVersion)) {
+                        console.log(`Updating ${key} from v${userVersion} to v${remoteVersion}`);
+                        const batch = writeBatch(db);
+                        const cardsCollectionPath = `/artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/users/${userId}/cards`;
+                        remoteDB.questions.forEach(card => {
+                            const docRef = doc(collection(db, cardsCollectionPath));
+                            batch.set(docRef, { ...card, subject: remoteDB.subject, userId, createdAt: Timestamp.now() });
+                        });
+                        await batch.commit();
+                        console.log(`Added ${remoteDB.questions.length} new questions for ${key}.`);
+                        versionsToUpdate[key] = remoteVersion;
+                    }
+                } catch (error) {
+                    console.error(`Failed to fetch or update database for ${key}:`, error);
+                }
+            }
+            
+            if (Object.keys(versionsToUpdate).length > 0) {
+                 await setDoc(profileRef, { dbVersions: {...userVersions, ...versionsToUpdate} }, { merge: true });
+                 console.log("User versions updated in Firestore.");
+            }
+        }
+
+        // --- DATA HANDLING ---
+        function setupRealtimeListener() {
+            if (!userId) return;
+            const collectionPath = `/artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/users/${userId}/cards`;
+            unsubscribeListener = onSnapshot(query(collection(db, collectionPath)), snapshot => {
+                allCards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                updateDashboard();
+                updateBrowseList();
+            });
+        }
+
+        // --- DASHBOARD ---
+        function startCountdown() {
+            const targetDate = new Date('2025-11-04T08:00:00+08:00').getTime();
+            setInterval(() => {
+                const distance = targetDate - new Date().getTime();
+                if (distance < 0) { document.getElementById('timer-grid').innerHTML = `<p class="col-span-4 text-xl font-bold text-center text-green-600">Good luck!</p>`; return; }
+                document.getElementById('days').textContent = String(Math.floor(distance / 86400000)).padStart(2, '0');
+                document.getElementById('hours').textContent = String(Math.floor((distance % 86400000) / 3600000)).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(Math.floor((distance % 3600000) / 60000)).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(Math.floor((distance % 60000) / 1000)).padStart(2, '0');
+            }, 1000);
+        }
+
+        function updateDashboard() {
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            const reviewCards = allCards.filter(c => c.nextReviewDate && c.nextReviewDate.toDate() <= today);
+            const newCards = allCards.filter(c => !c.nextReviewDate);
+            document.getElementById('stats-review').textContent = reviewCards.length;
+            document.getElementById('stats-new').textContent = newCards.length;
+            document.getElementById('stats-mastered').textContent = allCards.filter(c => c.interval && c.interval >= 21).length;
+            document.getElementById('start-session-btn').disabled = (reviewCards.length + newCards.length) === 0;
+            document.getElementById('start-session-btn').textContent = document.getElementById('start-session-btn').disabled ? "No Cards to Review" : "Begin Study Session";
+            updateSubjectProgress();
+        }
+
+        function updateSubjectProgress() {
+            const container = document.getElementById('subject-progress-bars');
+            container.innerHTML = '';
+            CONSTANTS.NDLE_SUBJECTS.forEach(subject => {
+                const subjectCards = allCards.filter(c => c.subject === subject);
+                const percentage = allCards.length > 0 ? (subjectCards.length / allCards.length) * 100 : 0;
+                const subjectKey = CONSTANTS.SUBJECT_KEYS[subject];
+                container.innerHTML += `<div><div class="flex justify-between mb-1"><span class="font-medium text-slate-700">${subject}</span><span class="text-sm text-slate-500">${subjectCards.length} cards</span></div><div class="w-full bg-slate-200 rounded-full h-2.5"><div class="${CONSTANTS.SUBJECT_COLORS[subjectKey]} h-2.5 rounded-full" style="width: ${percentage}%"></div></div></div>`;
+            });
+        }
+
+        // --- STUDY SESSION ---
+        function startSession() {
+            const subjectFilter = document.getElementById('study-subject-select').value;
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            let potentialCards = subjectFilter === 'all' ? allCards : allCards.filter(c => c.subject === subjectFilter);
+            const dueForReview = potentialCards.filter(c => c.nextReviewDate && c.nextReviewDate.toDate() <= today);
+            const newCards = potentialCards.filter(c => !c.nextReviewDate).slice(0, 10);
+            studyQueue = [...dueForReview, ...newCards].sort(() => Math.random() - 0.5);
+            if (studyQueue.length === 0) { alert("No cards available for this study session."); return; }
+            currentCardIndex = 0;
+            cardsReviewedInSession = 0;
+            showView('study-session-view');
+            document.getElementById('session-title').textContent = subjectFilter === 'all' ? 'Review Session' : `Studying: ${subjectFilter}`;
+            loadNextCard();
+        }
+
+        function loadNextCard() {
+            updateProgressBar();
+            document.getElementById('feedback-area').classList.add('hidden');
+            if (currentCardIndex >= studyQueue.length) { endSession(); return; }
+            const card = studyQueue[currentCardIndex];
+            document.getElementById('card-subject').textContent = card.subject;
+            document.getElementById('card-question').textContent = card.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            Object.entries(card.options).forEach(([key, value]) => {
+                const button = document.createElement('button');
+                button.className = "option-btn w-full text-left p-4 border border-slate-300 rounded-lg hover:bg-slate-100";
+                button.dataset.option = key;
+                button.innerHTML = `<span class="font-bold mr-3">${key.toUpperCase()}</span>${value}`;
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function handleOptionSelect(e) {
+            const selectedOption = e.target.closest('.option-btn');
+            if (!selectedOption) return;
+            const card = studyQueue[currentCardIndex];
+            const isCorrect = selectedOption.dataset.option === card.correctAnswer;
+            
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true;
+                if (btn.dataset.option === card.correctAnswer) {
+                    btn.classList.remove('border-slate-300', 'hover:bg-slate-100');
+                    btn.classList.add('bg-green-100', 'border-green-500', 'ring-2', 'ring-green-500');
+                }
+            });
+
+            if (!isCorrect) {
+                selectedOption.classList.remove('border-slate-300', 'hover:bg-slate-100');
+                selectedOption.classList.add('bg-red-100', 'border-red-500');
+            }
+
+            document.getElementById('card-rationale').textContent = card.rationale;
+            document.getElementById('feedback-area').classList.remove('hidden');
+        }
+
+        async function processReview(rating) {
+            const card = studyQueue[currentCardIndex];
+            let newInterval;
+            let nextReviewDate = new Date();
+            const currentInterval = card.interval || 0;
+
+            if (rating === 'again') {
+                newInterval = 1;
+                studyQueue.push(card);
+            } else {
+                cardsReviewedInSession++;
+                newInterval = rating === 'good' ? Math.max(1, currentInterval) * 2 : Math.max(1, currentInterval) * 4;
+            }
+            nextReviewDate.setDate(nextReviewDate.getDate() + newInterval);
+            
+            const cardRef = doc(db, `/artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/users/${userId}/cards`, card.id);
+            await setDoc(cardRef, { interval: newInterval, nextReviewDate: Timestamp.fromDate(nextReviewDate) }, { merge: true });
+            
+            currentCardIndex++;
+            loadNextCard();
+        }
+
+        function endSession() {
+            showView('session-complete-view');
+            document.getElementById('session-summary').textContent = `You reviewed ${cardsReviewedInSession} cards. Keep up the momentum!`;
+        }
+
+        function updateProgressBar() {
+            const percentage = studyQueue.length > 0 ? (currentCardIndex / studyQueue.length) * 100 : 0;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-text').textContent = `${currentCardIndex} / ${studyQueue.length}`;
+        }
+
+        // --- MODALS & FORMS ---
+        function openCardModal(card = null) {
+            document.getElementById('card-form').reset();
+            if (card) {
+                document.getElementById('modal-title').textContent = 'Edit Card';
+                document.getElementById('card-id-input').value = card.id;
+                document.getElementById('subject-input').value = card.subject;
+                document.getElementById('question-input').value = card.question;
+                document.getElementById('option-a').value = card.options.a;
+                document.getElementById('option-b').value = card.options.b;
+                document.getElementById('option-c').value = card.options.c;
+                document.getElementById('option-d').value = card.options.d;
+                document.getElementById('correct-answer-input').value = card.correctAnswer;
+                document.getElementById('rationale-input').value = card.rationale;
+                document.getElementById('tags-input').value = card.tags ? card.tags.join(', ') : '';
+            } else {
+                document.getElementById('modal-title').textContent = 'Add New Card';
+            }
+            document.getElementById('add-card-modal').showModal();
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const cardData = {
+                subject: document.getElementById('subject-input').value,
+                question: document.getElementById('question-input').value,
+                options: { a: document.getElementById('option-a').value, b: document.getElementById('option-b').value, c: document.getElementById('option-c').value, d: document.getElementById('option-d').value },
+                correctAnswer: document.getElementById('correct-answer-input').value,
+                rationale: document.getElementById('rationale-input').value,
+                tags: document.getElementById('tags-input').value.split(',').map(t => t.trim()).filter(Boolean),
+                userId
+            };
+            const cardId = document.getElementById('card-id-input').value;
+            const collectionPath = `/artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/users/${userId}/cards`;
+            if (cardId) await setDoc(doc(db, collectionPath, cardId), cardData, { merge: true });
+            else await addDoc(collection(db, collectionPath), { ...cardData, createdAt: Timestamp.now() });
+            document.getElementById('add-card-modal').close();
+        }
+
+        function updateBrowseList(filterSubject = 'all') {
+            const listContainer = document.getElementById('browse-list');
+            listContainer.innerHTML = '';
+            const filteredCards = filterSubject === 'all' ? allCards : allCards.filter(c => c.subject === filterSubject);
+            if (filteredCards.length === 0) { listContainer.innerHTML = `<p class="text-slate-500 text-center py-8">No cards found.</p>`; return; }
+            [...filteredCards].sort((a, b) => (b.createdAt?.toDate() || 0) - (a.createdAt?.toDate() || 0)).forEach(card => {
+                const optionsHTML = Object.entries(card.options).map(([key, value]) => `<li class="ml-5 ${key === card.correctAnswer ? 'font-bold text-green-700' : ''}">${key.toUpperCase()}. ${value}</li>`).join('');
+                listContainer.innerHTML += `<div class="bg-slate-50 border border-slate-200 p-4 rounded-lg mb-3"><div class="flex justify-between items-start"><div><p class="font-semibold text-sm text-sky-600">${card.subject}</p><p class="font-bold text-slate-800 mt-1">${card.question}</p><ul class="list-none mt-2 space-y-1">${optionsHTML}</ul><p class="mt-2 font-semibold text-slate-600">Rationale:</p><p class="text-slate-600">${card.rationale}</p></div><div class="flex-shrink-0 ml-4 flex flex-col gap-1"><button data-id="${card.id}" class="edit-card-btn text-blue-600 hover:text-blue-800 p-1 text-sm">Edit</button><button data-id="${card.id}" class="delete-card-btn text-red-500 hover:text-red-700 p-1 text-sm">Delete</button></div></div></div>`;
+            });
+        }
+        
+        // --- UTILITY & SETUP ---
+        function showView(viewId) { ['dashboard-view', 'study-session-view', 'session-complete-view'].forEach(id => document.getElementById(id).classList.add('hidden')); document.getElementById(viewId).classList.remove('hidden'); }
+        function populateSelects() {
+            const selects = [document.getElementById('subject-input'), document.getElementById('study-subject-select')];
+            selects.forEach(sel => {
+                if (!sel) return;
+                sel.innerHTML = sel.id === 'study-subject-select' ? '<option value="all">Review All Due Cards</option>' : '';
+                CONSTANTS.NDLE_SUBJECTS.forEach(sub => sel.innerHTML += `<option value="${sub}">${sub}</option>`);
+            });
+            const filterContainer = document.getElementById('browse-filter-container');
+            filterContainer.innerHTML = `<button data-subject="all" class="browse-filter-btn bg-sky-600 text-white font-semibold py-1 px-3 rounded-full text-sm">All</button>`;
+            CONSTANTS.NDLE_SUBJECTS.forEach(sub => filterContainer.innerHTML += `<button data-subject="${sub}" class="browse-filter-btn bg-slate-200 text-slate-700 font-semibold py-1 px-3 rounded-full text-sm">${sub}</button>`);
+        }
+
+        function setupEventListeners() {
+            document.getElementById('start-session-btn').addEventListener('click', startSession);
+            document.getElementById('add-card-btn').addEventListener('click', () => openCardModal());
+            document.getElementById('browse-cards-btn').addEventListener('click', () => { updateBrowseList(); document.getElementById('browse-cards-modal').showModal(); });
+            document.getElementById('options-container').addEventListener('click', handleOptionSelect);
+            document.getElementById('feedback-buttons').addEventListener('click', e => e.target.tagName === 'BUTTON' && processReview(e.target.dataset.rating));
+            document.getElementById('end-session-btn').addEventListener('click', () => showView('dashboard-view'));
+            document.getElementById('return-to-dash-btn').addEventListener('click', () => showView('dashboard-view'));
+            document.getElementById('card-form').addEventListener('submit', handleFormSubmit);
+            document.getElementById('cancel-card-btn').addEventListener('click', () => document.getElementById('add-card-modal').close());
+            document.getElementById('close-browse-btn').addEventListener('click', () => document.getElementById('browse-cards-modal').close());
+            document.getElementById('browse-list').addEventListener('click', e => {
+                const cardId = e.target.closest('button')?.dataset.id;
+                if (!cardId) return;
+                if (e.target.classList.contains('edit-card-btn')) {
+                    const card = allCards.find(c => c.id === cardId);
+                    if (card) { document.getElementById('browse-cards-modal').close(); openCardModal(card); }
+                } else if (e.target.classList.contains('delete-card-btn')) {
+                    if (confirm("Delete this card permanently?")) deleteDoc(doc(db, `/artifacts/${typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'}/users/${userId}/cards`, cardId));
+                }
+            });
+            document.getElementById('browse-filter-container').addEventListener('click', e => {
+                if (e.target.classList.contains('browse-filter-btn')) {
+                    updateBrowseList(e.target.dataset.subject);
+                    document.querySelectorAll('.browse-filter-btn').forEach(btn => btn.classList.replace('bg-sky-600', 'bg-slate-200') || btn.classList.replace('text-white', 'text-slate-700'));
+                    e.target.classList.replace('bg-slate-200', 'bg-sky-600'); e.target.classList.replace('text-slate-700', 'text-white');
+                }
+            });
+        }
+
+        // --- APP INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            startCountdown();
+            populateSelects();
+            initializeFirebase();
+            setupEventListeners();
+        });
+    </script>
 </body>
 </html>
