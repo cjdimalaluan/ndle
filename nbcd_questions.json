@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "subject": "Nutritional Biochemistry and Clinical Dietetics",
+  "questions": [
+    {
+      "question": "Which hormone is primarily responsible for lowering blood glucose levels?",
+      "options": { "a": "Glucagon", "b": "Cortisol", "c": "Insulin", "d": "Epinephrine" },
+      "correctAnswer": "c",
+      "rationale": "Insulin facilitates the uptake of glucose from the blood into muscle and adipose cells, thus lowering blood glucose concentration.",
+      "tags": ["Hormones", "Metabolism"]
+    },
+    {
+      "question": "The metabolic pathway that breaks down glucose into pyruvate is called:",
+      "options": { "a": "Gluconeogenesis", "b": "Glycogenesis", "c": "Glycolysis", "d": "Lipolysis" },
+      "correctAnswer": "c",
+      "rationale": "Glycolysis is the universal pathway for glucose catabolism, converting one molecule of glucose into two molecules of pyruvate.",
+      "tags": ["Metabolism", "Carbohydrates"]
+    }
+  ]
+}
